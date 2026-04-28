@@ -12,7 +12,7 @@ const DEFAULTS = {
   hero_badge_text: '🔴 লাইভ ইভেন্ট',
   hero_badge_visible: 'true',
   hero_btn1_label: 'ফ্রি রেজিস্ট্রেশন করুন',
-  hero_btn1_url: '#register',
+  hero_btn1_url: '/signup',
   hero_btn2_label: 'আরও জানুন',
   hero_btn2_url: '#about',
 };

@@ -67,9 +67,9 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <a href="#register" className="hidden md:inline-flex btn-primary text-sm">
+        <Link to="/signup" className="hidden md:inline-flex btn-primary text-sm">
           এখনই ভর্তি হন →
-        </a>
+        </Link>
 
         <button
           className="lg:hidden text-ink-muted hover:text-cyan-glow ml-auto"
@@ -92,9 +92,9 @@ export default function Navbar() {
                 {l.label}
               </a>
             ))}
-            <a href="#register" className="btn-primary justify-center" onClick={() => setOpen(false)}>
+            <Link to="/signup" className="btn-primary justify-center" onClick={() => setOpen(false)}>
               এখনই ভর্তি হন →
-            </a>
+            </Link>
           </div>
         </div>
       )}
