@@ -20,11 +20,17 @@ export default function EbooksPanel() {
 
   async function save(form) {
     const payload = { ...form, price: Number(form.price) || 0 };
+    let error;
     if (form.id) {
-      await supabase.from('ebooks').update(payload).eq('id', form.id);
+      ({ error } = await supabase.from('ebooks').update(payload).eq('id', form.id));
     } else {
       delete payload.id;
-      await supabase.from('ebooks').insert(payload);
+      ({ error } = await supabase.from('ebooks').insert(payload));
+    }
+    if (error) {
+      setToast('Save failed: ' + error.message);
+      setTimeout(() => setToast(''), 4000);
+      return;
     }
     setEditing(null);
     await load();
@@ -34,7 +40,12 @@ export default function EbooksPanel() {
 
   async function remove(id) {
     if (!confirm('আপনি কি নিশ্চিত?')) return;
-    await supabase.from('ebooks').delete().eq('id', id);
+    const { error } = await supabase.from('ebooks').delete().eq('id', id);
+    if (error) {
+      setToast('Delete failed: ' + error.message);
+      setTimeout(() => setToast(''), 4000);
+      return;
+    }
     load();
   }
 
