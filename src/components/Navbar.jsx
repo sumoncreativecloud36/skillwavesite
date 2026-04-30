@@ -24,62 +24,66 @@ export default function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-50 backdrop-blur-xl transition-colors"
+      className="sticky top-0 z-50 transition-all"
       style={{
-        background: scrolled ? '#060A14CC' : 'transparent',
-        borderBottom: scrolled ? '1px solid #FFFFFF0F' : '1px solid transparent',
+        background: scrolled ? '#0B0F19CC' : 'transparent',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid #00D4FF22',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center gap-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center gap-4">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           {settings.logo_url ? (
-            <img src={settings.logo_url} alt="SkillWave" className="h-8 w-auto" />
+            <img src={settings.logo_url} alt="SkillWave" className="h-9 w-auto" />
           ) : (
-            <span className="display text-2xl tracking-tight" style={{ color: '#fff' }}>
-              Skill<span style={{ color: '#00D4FF' }}>Wave</span>
+            <span
+              style={{ color: '#00D4FF', fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 24, letterSpacing: '-0.02em' }}
+            >
+              SkillWave
             </span>
           )}
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-7 ml-2">
+        <div className="hidden md:flex flex-1 max-w-md mx-2">
+          <div className="relative w-full">
+            <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#00D4FF' }} />
+            <input
+              className="input-dark pl-10"
+              style={{ borderRadius: 24 }}
+              placeholder="কোর্স খুঁজুন..."
+              aria-label="search"
+            />
+          </div>
+        </div>
+
+        <nav className="hidden lg:flex items-center gap-6">
           {links.map((l) => (
             <NavLink
               key={l.label}
               to={l.to}
               end={l.to === '/'}
-              className={({ isActive }) =>
-                `text-[14px] font-medium transition-colors ${
-                  isActive ? 'text-white' : 'hover:text-white'
-                }`
-              }
-              style={({ isActive }) => ({ color: isActive ? '#fff' : '#A8B5CC' })}
+              className="font-head transition-colors"
+              style={({ isActive }) => ({
+                fontSize: 14,
+                fontWeight: 500,
+                color: isActive ? '#00D4FF' : '#A0AEC0',
+                borderBottom: isActive ? '2px solid #00D4FF' : '2px solid transparent',
+                paddingBottom: 4,
+              })}
             >
               {l.label}
             </NavLink>
           ))}
         </nav>
 
-        <div className="hidden md:flex flex-1 max-w-xs ml-auto">
-          <div className="relative w-full">
-            <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#7C8AA3' }} />
-            <input
-              className="input-dark pl-10 rounded-full !py-2 !text-sm"
-              placeholder="খুঁজুন..."
-              aria-label="search"
-            />
-          </div>
-        </div>
-
-        <Link to="/admin/login" className="hidden md:inline-flex text-[13px] font-medium" style={{ color: '#A8B5CC' }}>
-          লগইন
-        </Link>
         <Link to="/signup" className="hidden md:inline-flex btn-primary text-sm">
-          ভর্তি হন →
+          এখনই ভর্তি হন →
         </Link>
 
         <button
           className="lg:hidden ml-auto"
-          style={{ color: '#A8B5CC' }}
+          style={{ color: '#A0AEC0' }}
           onClick={() => setOpen((v) => !v)}
           aria-label="menu"
         >
@@ -88,22 +92,19 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div className="lg:hidden border-t" style={{ borderColor: '#FFFFFF0F', background: '#060A14EE' }}>
+        <div className="lg:hidden border-t" style={{ borderColor: '#00D4FF22', background: '#0B0F19EE' }}>
           <div className="px-4 py-4 flex flex-col gap-3">
             <div className="relative">
-              <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#7C8AA3' }} />
-              <input className="input-dark pl-10 rounded-full" placeholder="খুঁজুন..." />
+              <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#00D4FF' }} />
+              <input className="input-dark pl-10" style={{ borderRadius: 24 }} placeholder="কোর্স খুঁজুন..." />
             </div>
             {links.map((l) => (
-              <Link key={l.label} to={l.to} className="py-1.5" style={{ color: '#A8B5CC' }} onClick={() => setOpen(false)}>
+              <Link key={l.label} to={l.to} className="py-1" style={{ color: '#A0AEC0' }} onClick={() => setOpen(false)}>
                 {l.label}
               </Link>
             ))}
-            <Link to="/admin/login" className="py-1.5" style={{ color: '#A8B5CC' }} onClick={() => setOpen(false)}>
-              লগইন
-            </Link>
             <Link to="/signup" className="btn-primary justify-center" onClick={() => setOpen(false)}>
-              ভর্তি হন →
+              এখনই ভর্তি হন →
             </Link>
           </div>
         </div>

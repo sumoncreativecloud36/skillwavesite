@@ -1,21 +1,38 @@
+const EBOOK_FALLBACKS = [
+  'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=600&q=80',
+];
+
+function fallbackFor(id = '') {
+  const i = String(id).split('').reduce((a, c) => a + c.charCodeAt(0), 0) % EBOOK_FALLBACKS.length;
+  return EBOOK_FALLBACKS[i];
+}
+
 export default function EbookCard({ ebook }) {
+  const cover = ebook.cover_url || fallbackFor(ebook.id);
   return (
     <div className="card card-hover overflow-hidden flex flex-col">
-      <div className="overflow-hidden" style={{ aspectRatio: '1 / 1.4', background: '#0B1220' }}>
-        {ebook.cover_url ? (
-          <img src={ebook.cover_url} alt={ebook.title} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center display text-2xl" style={{ color: '#00D4FF22' }}>SW</div>
-        )}
+      <div className="overflow-hidden relative" style={{ aspectRatio: '1 / 1.4', background: '#0B0F19' }}>
+        <img src={cover} alt={ebook.title} className="w-full h-full object-cover opacity-95" />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(180deg, transparent 55%, #0D152699)' }}
+        />
       </div>
-      <div className="p-4 flex flex-col gap-1.5 flex-1">
-        <h3 className="font-semibold text-[15px] text-white line-clamp-2 leading-snug">{ebook.title}</h3>
-        <div className="text-[13px]" style={{ color: '#7C8AA3' }}>{ebook.author}</div>
-        <div className="display text-white text-base mt-auto">৳{ebook.price}</div>
+      <div className="p-4 flex flex-col gap-1.5 flex-1 font-body">
+        <h3 className="font-head text-white line-clamp-2" style={{ fontWeight: 600, fontSize: 15, lineHeight: 1.3 }}>
+          {ebook.title}
+        </h3>
+        <div style={{ color: '#A0AEC0', fontSize: 13, fontWeight: 300 }}>{ebook.author}</div>
+        <div className="font-head mt-auto" style={{ color: '#00D4FF', fontWeight: 700, fontSize: 16 }}>
+          ৳{ebook.price}
+        </div>
         <a
           href={ebook.purchase_url || '#'}
-          className="text-[12px] font-medium self-start mt-2 transition-colors"
-          style={{ color: '#00D4FF' }}
+          className="btn-outline !px-3 !py-1 self-start mt-2"
+          style={{ fontSize: 12 }}
         >
           বিস্তারিত →
         </a>

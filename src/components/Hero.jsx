@@ -1,73 +1,80 @@
 import { Link } from 'react-router-dom';
 import { useSite } from '../context/SiteContext.jsx';
 
+const HERO_FALLBACK =
+  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80';
+
 export default function Hero() {
   const { settings } = useSite();
   const badgeOn = String(settings.hero_badge_visible) === 'true';
+  const heroImg = settings.hero_image_url || HERO_FALLBACK;
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="glow-orb" style={{ width: 520, height: 520, background: '#00D4FF', top: -120, right: -120 }} />
-      <div className="glow-orb" style={{ width: 420, height: 420, background: '#1E3A8A', bottom: -160, left: -120, opacity: 0.35 }} />
-
-      <div className="relative max-w-7xl mx-auto px-4 lg:px-8 pt-20 md:pt-28 pb-20 md:pb-28 grid md:grid-cols-12 gap-10 items-center">
-        <div className="md:col-span-7 space-y-7">
+    <section
+      className="relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #0A2540, #00D4FF15)' }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          background:
+            'radial-gradient(600px 400px at 85% 20%, #00D4FF22, transparent 60%), radial-gradient(500px 350px at 10% 90%, #1E3A8A33, transparent 60%)',
+        }}
+      />
+      <div className="relative max-w-7xl mx-auto px-4 lg:px-8 py-16 md:py-24 grid md:grid-cols-5 gap-10 items-center">
+        <div className="md:col-span-3 space-y-6">
           {badgeOn && settings.hero_badge_text && (
-            <span className="pill-badge">{settings.hero_badge_text}</span>
+            <span className="pill-badge font-medium" style={{ fontWeight: 500 }}>
+              {settings.hero_badge_text}
+            </span>
           )}
-          <h1 className="display text-white text-5xl md:text-7xl">
+          <h1
+            className="gradient-text font-head"
+            style={{ fontWeight: 700, fontSize: 'clamp(32px, 5vw, 44px)', lineHeight: 1.2 }}
+          >
             {settings.hero_headline}
           </h1>
-          <p className="text-[17px] md:text-lg max-w-2xl" style={{ color: '#A8B5CC' }}>
+          <p className="font-body" style={{ color: '#A0AEC0', fontSize: 16, lineHeight: 1.65, maxWidth: 560 }}>
             {settings.hero_description}
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link to={settings.hero_btn1_url || '/signup'} className="btn-primary">
               {settings.hero_btn1_label}
             </Link>
-            <Link to="/about" className="btn-outline">
+            <Link to={settings.hero_btn2_url?.startsWith('/') ? settings.hero_btn2_url : '/about'} className="btn-outline">
               {settings.hero_btn2_label}
             </Link>
           </div>
-
-          <div className="flex flex-wrap items-center gap-x-10 gap-y-4 pt-8">
-            <Stat value="১০K+" label="শিক্ষার্থী" />
-            <Stat value="২০০+" label="কোর্স" />
-            <Stat value="৪.৯/৫" label="রেটিং" />
-          </div>
         </div>
 
-        <div className="md:col-span-5">
+        <div className="md:col-span-2 relative">
           <div
-            className="relative rounded-2xl overflow-hidden"
-            style={{ aspectRatio: '4/5', border: '1px solid #FFFFFF14', background: 'linear-gradient(140deg, #0E1726, #0A2540)' }}
+            className="relative rounded-xl overflow-hidden shadow-glow"
+            style={{ aspectRatio: '4/3', border: '1px solid #00D4FF22' }}
           >
-            {settings.hero_image_url ? (
-              <img src={settings.hero_image_url} alt="hero" className="absolute inset-0 w-full h-full object-cover" />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="display text-7xl" style={{ color: '#00D4FF22' }}>SW</span>
-              </div>
-            )}
+            <img src={heroImg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-90" />
             <div
-              className="absolute inset-x-0 bottom-0 p-5"
-              style={{ background: 'linear-gradient(180deg, transparent, #060A14EE)' }}
-            >
-              <div className="eyebrow mb-1">Live Now</div>
-              <div className="text-white font-semibold">নতুন ব্যাচ — ভর্তি চলছে</div>
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(140deg, rgba(13,21,38,0.55), rgba(10,37,64,0.25) 60%, rgba(0,212,255,0.08))',
+              }}
+            />
+            <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 p-3 rounded-lg" style={{
+              background: '#0D1526CC',
+              border: '1px solid #00D4FF22',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+            }}>
+              <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: '#00D4FF22', color: '#00D4FF', border: '1px solid #00D4FF55' }}>▶</div>
+              <div>
+                <div className="text-white text-sm font-semibold font-head">নতুন ব্যাচ</div>
+                <div className="text-xs" style={{ color: '#A0AEC0' }}>ভর্তি চলছে — সীমিত আসন</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function Stat({ value, label }) {
-  return (
-    <div>
-      <div className="display text-white text-2xl md:text-3xl">{value}</div>
-      <div className="text-xs uppercase tracking-widest mt-1" style={{ color: '#7C8AA3' }}>{label}</div>
-    </div>
   );
 }

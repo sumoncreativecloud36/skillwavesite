@@ -7,42 +7,37 @@ html, body, #root {
 }
 
 body {
-  background: radial-gradient(1200px 600px at 80% -10%, #0A2540 0%, transparent 60%),
-              radial-gradient(900px 500px at -10% 30%, #00D4FF12 0%, transparent 60%),
-              linear-gradient(180deg, #060A14 0%, #0A1220 100%);
+  background: linear-gradient(160deg, #0B0F19, #0A2540);
   background-attachment: fixed;
   font-family: 'Hind Siliguri', 'Inter', sans-serif;
-  color: #E8EDF5;
+  color: #FFFFFF;
   line-height: 1.65;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
-  letter-spacing: -0.005em;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+  line-height: 1.25;
   color: #FFFFFF;
 }
 
-.display {
-  font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.02;
+h1 { font-weight: 700; font-size: 48px; }
+h2 { font-weight: 600; font-size: 32px; }
+h3 { font-weight: 500; font-size: 22px; }
+
+@media (max-width: 768px) {
+  h1 { font-size: 40px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 20px; }
 }
 
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 11px;
-  font-weight: 600;
-  color: #7AC9E0;
-}
+.font-head { font-family: 'Hind Siliguri', 'Poppins', sans-serif; }
+.font-body { font-family: 'Hind Siliguri', 'Inter', sans-serif; }
 
 @layer components {
   .gradient-text {
-    background: linear-gradient(90deg, #FFFFFF 0%, #BFE9F5 60%, #00D4FF 100%);
+    background: linear-gradient(90deg, #00D4FF, #FFFFFF);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -50,80 +45,78 @@ h1, h2, h3, h4 {
   .btn-primary {
     background: linear-gradient(90deg, #00D4FF, #1E3A8A);
     color: #fff;
-    border-radius: 999px;
-    padding: 11px 22px;
+    border-radius: 24px;
+    padding: 10px 24px;
     font-weight: 600;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+    transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 6px 24px -8px #00D4FF55;
+    gap: 6px;
+    box-shadow: 0 4px 20px -4px #00D4FF40;
   }
-  .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .btn-primary:hover { filter: brightness(1.1); transform: scale(1.03); }
   .btn-outline {
     background: transparent;
-    border: 1px solid #00D4FF55;
-    color: #BFE9F5;
-    border-radius: 999px;
-    padding: 10px 22px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    border: 1.5px solid #00D4FF;
+    color: #00D4FF;
+    border-radius: 24px;
+    padding: 9px 22px;
+    font-weight: 600;
+    font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+    transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
-  .btn-outline:hover { border-color: #00D4FF; color: #fff; background: #00D4FF0F; }
+  .btn-outline:hover { background: #00D4FF15; }
   .card {
-    background: linear-gradient(180deg, #0E1726 0%, #0B1220 100%);
-    border: 1px solid #FFFFFF0F;
-    border-radius: 16px;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #0D1526CC;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #00D4FF22;
+    border-radius: 10px;
+    transition: all 0.3s ease;
   }
   .card-hover:hover {
-    border-color: #00D4FF40;
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px -12px #00D4FF22;
+    border-color: #00D4FF;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px #00D4FF18;
   }
   .pill-badge {
-    background: #00D4FF14;
+    background: #00D4FF22;
     color: #00D4FF;
-    border: 1px solid #00D4FF40;
-    border-radius: 999px;
-    padding: 6px 14px;
-    font-size: 12px;
-    font-weight: 500;
+    border: 1px solid #00D4FF;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
   .input-dark {
-    background: #0B1220;
-    border: 1px solid #FFFFFF14;
+    background: #0D1526CC;
+    border: 1px solid #00D4FF33;
     border-radius: 10px;
     color: #fff;
-    padding: 11px 14px;
+    padding: 10px 14px;
     width: 100%;
     transition: all 0.2s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
+  .input-dark::placeholder { color: #A0AEC0; }
   .input-dark:focus {
     outline: none;
     border-color: #00D4FF;
-    box-shadow: 0 0 0 3px #00D4FF22;
+    box-shadow: 0 0 8px #00D4FF44;
   }
-  .divider-soft {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #FFFFFF18, transparent);
-  }
-  .glow-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-    opacity: 0.5;
-  }
+  .text-muted { color: #A0AEC0; }
+  .text-cyan-glow { color: #00D4FF; }
+  .shadow-glow { box-shadow: 0 0 40px #00D4FF22; }
 }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #060A14; }
-::-webkit-scrollbar-thumb { background: #00D4FF33; border-radius: 4px; }
+::-webkit-scrollbar-track { background: #0B0F19; }
+::-webkit-scrollbar-thumb { background: #00D4FF44; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #00D4FF; }
