@@ -7,22 +7,42 @@ html, body, #root {
 }
 
 body {
-  background: linear-gradient(160deg, #0B0F19, #0A2540);
+  background: radial-gradient(1200px 600px at 80% -10%, #0A2540 0%, transparent 60%),
+              radial-gradient(900px 500px at -10% 30%, #00D4FF12 0%, transparent 60%),
+              linear-gradient(180deg, #060A14 0%, #0A1220 100%);
   background-attachment: fixed;
   font-family: 'Hind Siliguri', 'Inter', sans-serif;
-  color: #FFFFFF;
+  color: #E8EDF5;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-  line-height: 1.25;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+}
+
+.display {
+  font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7AC9E0;
 }
 
 @layer components {
   .gradient-text {
-    background: linear-gradient(90deg, #00D4FF, #FFFFFF);
+    background: linear-gradient(90deg, #FFFFFF 0%, #BFE9F5 60%, #00D4FF 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -30,68 +50,80 @@ h1, h2, h3, h4 {
   .btn-primary {
     background: linear-gradient(90deg, #00D4FF, #1E3A8A);
     color: #fff;
-    border-radius: 24px;
-    padding: 10px 24px;
+    border-radius: 999px;
+    padding: 11px 22px;
     font-weight: 600;
-    font-family: 'Hind Siliguri', 'Poppins', sans-serif;
-    transition: all 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    box-shadow: 0 6px 24px -8px #00D4FF55;
   }
-  .btn-primary:hover { filter: brightness(1.1); transform: scale(1.03); }
+  .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
   .btn-outline {
     background: transparent;
-    border: 1.5px solid #00D4FF;
-    color: #00D4FF;
-    border-radius: 24px;
-    padding: 9px 22px;
-    font-weight: 600;
-    transition: all 0.25s ease;
+    border: 1px solid #00D4FF55;
+    color: #BFE9F5;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-weight: 500;
+    transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
-  .btn-outline:hover { background: #00D4FF15; }
+  .btn-outline:hover { border-color: #00D4FF; color: #fff; background: #00D4FF0F; }
   .card {
-    background: #0D1526;
-    border: 1px solid #00D4FF22;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+    background: linear-gradient(180deg, #0E1726 0%, #0B1220 100%);
+    border: 1px solid #FFFFFF0F;
+    border-radius: 16px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
   .card-hover:hover {
-    border-color: #00D4FF;
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px #00D4FF18;
+    border-color: #00D4FF40;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px -12px #00D4FF22;
   }
   .pill-badge {
-    background: #00D4FF22;
+    background: #00D4FF14;
     color: #00D4FF;
-    border: 1px solid #00D4FF;
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 13px;
+    border: 1px solid #00D4FF40;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
   .input-dark {
-    background: #0D1526;
-    border: 1px solid #00D4FF33;
+    background: #0B1220;
+    border: 1px solid #FFFFFF14;
     border-radius: 10px;
     color: #fff;
-    padding: 10px 14px;
+    padding: 11px 14px;
     width: 100%;
     transition: all 0.2s ease;
   }
   .input-dark:focus {
     outline: none;
     border-color: #00D4FF;
-    box-shadow: 0 0 8px #00D4FF44;
+    box-shadow: 0 0 0 3px #00D4FF22;
+  }
+  .divider-soft {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #FFFFFF18, transparent);
+  }
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.5;
   }
 }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #0B0F19; }
-::-webkit-scrollbar-thumb { background: #00D4FF44; border-radius: 4px; }
+::-webkit-scrollbar-track { background: #060A14; }
+::-webkit-scrollbar-thumb { background: #00D4FF33; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #00D4FF; }

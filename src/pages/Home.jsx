@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import Hero from '../components/Hero.jsx';
 import Footer from '../components/Footer.jsx';
@@ -80,7 +81,7 @@ export default function Home() {
           </div>
           {featured.length > 0 && (
             <div className="text-center mt-10">
-              <a href="#all-courses" className="btn-primary">আরও দেখুন →</a>
+              <Link to="/courses" className="btn-primary">আরও দেখুন →</Link>
             </div>
           )}
         </section>
@@ -95,7 +96,7 @@ export default function Home() {
           </div>
           {featuredEbooks.length > 0 && (
             <div className="text-center mt-10">
-              <a href="#all-ebooks" className="btn-primary">আরও দেখুন →</a>
+              <Link to="/ebooks" className="btn-primary">আরও দেখুন →</Link>
             </div>
           )}
         </section>
