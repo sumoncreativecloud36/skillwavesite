@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { supabase } from '../lib/supabase.js';
+import Avatar from '../components/Avatar.jsx';
+import { supabase, uploadFile } from '../lib/supabase.js';
 
 export default function AccountEdit() {
   const { user } = useOutletContext();
@@ -36,13 +37,14 @@ export default function AccountEdit() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
+      <AvatarUpload user={user} />
       <form
         onSubmit={saveProfile}
-        className="rounded-2xl p-7 space-y-5"
+        className="rounded-2xl p-5 sm:p-7 space-y-5"
         style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
       >
-        <h1 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 700, fontSize: 24 }}>
+        <h1 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 700, fontSize: 22 }}>
           ✏️ Edit Profile
         </h1>
         <Field label="Full Name">
@@ -61,10 +63,10 @@ export default function AccountEdit() {
 
       <form
         onSubmit={changePassword}
-        className="rounded-2xl p-7 space-y-5"
+        className="rounded-2xl p-5 sm:p-7 space-y-5"
         style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
       >
-        <h2 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 600, fontSize: 20 }}>
+        <h2 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 600, fontSize: 18 }}>
           🔒 Change Password
         </h2>
         <Field label="New Password">
@@ -90,5 +92,64 @@ function Field({ label, children }) {
       <span className="text-sm" style={{ color: '#A0AEC0' }}>{label}</span>
       <div className="mt-1">{children}</div>
     </label>
+  );
+}
+
+function AvatarUpload({ user }) {
+  const fileRef = useRef(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+
+  async function handle(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setBusy(true); setErr('');
+    try {
+      const url = await uploadFile(file, 'avatars');
+      const { error } = await supabase.auth.updateUser({ data: { avatar_url: url } });
+      if (error) throw error;
+      window.location.reload();
+    } catch (ex) {
+      setErr(ex.message || 'Upload failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function removeAvatar() {
+    setBusy(true); setErr('');
+    const { error } = await supabase.auth.updateUser({ data: { avatar_url: null } });
+    setBusy(false);
+    if (error) setErr(error.message);
+    else window.location.reload();
+  }
+
+  return (
+    <div
+      className="rounded-2xl p-5 sm:p-7 flex items-center gap-4 sm:gap-6 flex-wrap"
+      style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
+    >
+      <Avatar user={user} size={88} />
+      <div className="flex-1 min-w-0">
+        <div className="text-white font-semibold mb-1" style={{ fontFamily: 'Hind Siliguri, Poppins', fontSize: 16 }}>
+          Profile Picture
+        </div>
+        <div className="text-xs mb-3" style={{ color: '#A0AEC0' }}>
+          JPG, PNG বা GIF (সর্বোচ্চ ~2MB)
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          <button type="button" onClick={() => fileRef.current?.click()} disabled={busy} className="btn-primary text-sm">
+            {busy ? 'আপলোড হচ্ছে...' : '📷 ছবি আপলোড'}
+          </button>
+          {user.user_metadata?.avatar_url && (
+            <button type="button" onClick={removeAvatar} disabled={busy} className="btn-outline text-sm">
+              মুছুন
+            </button>
+          )}
+        </div>
+        {err && <div className="text-xs mt-2 text-red-400">{err}</div>}
+        <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handle} />
+      </div>
+    </div>
   );
 }
