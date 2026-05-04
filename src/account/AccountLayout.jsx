@@ -99,7 +99,7 @@ export default function AccountLayout() {
             </div>
 
             <nav
-              className="rounded-2xl p-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1"
+              className="rounded-2xl p-2 grid grid-cols-4 lg:grid-cols-1 gap-1"
               style={{
                 background: '#0D1526CC',
                 border: '1px solid #00D4FF22',
@@ -112,7 +112,7 @@ export default function AccountLayout() {
                   key={item.to}
                   to={item.to}
                   end={item.to === '/account'}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
+                  className="flex flex-col lg:flex-row items-center lg:gap-3 gap-1 px-2 lg:px-3 py-3 lg:py-2.5 rounded-xl transition-all relative"
                   style={({ isActive }) => ({
                     background: isActive
                       ? 'linear-gradient(90deg, #00D4FF22, #00D4FF05)'
@@ -135,14 +135,15 @@ export default function AccountLayout() {
                         {item.icon}
                       </span>
                       <span
-                        className="flex-1 font-medium truncate"
-                        style={{ fontFamily: 'Hind Siliguri, Poppins', fontSize: 14 }}
+                        className="lg:flex-1 font-medium truncate text-center lg:text-left"
+                        style={{ fontFamily: 'Hind Siliguri, Poppins', fontSize: 12, lineHeight: 1.2 }}
                       >
-                        {item.label}
+                        <span className="lg:hidden block">{item.label.replace(/^My /, '')}</span>
+                        <span className="hidden lg:inline" style={{ fontSize: 14 }}>{item.label}</span>
                       </span>
                       {item.count != null && (
                         <span
-                          className="text-xs font-semibold rounded-full min-w-[22px] h-[22px] flex items-center justify-center px-2 shrink-0"
+                          className="text-[10px] lg:text-xs font-semibold rounded-full min-w-[18px] lg:min-w-[22px] h-[18px] lg:h-[22px] flex items-center justify-center px-1.5 lg:px-2 shrink-0 absolute lg:static top-1 right-1"
                           style={{ background: item.tone, color: '#fff' }}
                         >
                           {counts[item.count] || 0}

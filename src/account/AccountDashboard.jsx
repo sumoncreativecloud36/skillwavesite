@@ -3,59 +3,14 @@ import { useOutletContext, Link } from 'react-router-dom';
 import Avatar from '../components/Avatar.jsx';
 import { supabase, uploadFile } from '../lib/supabase.js';
 
-const STATS = [
-  { to: '/account',              icon: '▦',  label: 'Dashboard',    tone: '#00D4FF', countKey: null },
-  { to: '/account/courses',      icon: '📚', label: 'My Courses',   tone: '#10B981', countKey: 'courses' },
-  { to: '/account/workshops',    icon: '👥', label: 'My Workshops', tone: '#8B5CF6', countKey: 'workshops' },
-  { to: '/account/ebooks',       icon: '📖', label: 'My Ebooks',    tone: '#A855F7', countKey: 'ebooks' },
-];
-
 export default function AccountDashboard() {
-  const { user, counts } = useOutletContext();
+  const { user } = useOutletContext();
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student';
 
   return (
     <div className="space-y-5 sm:space-y-6">
       <ProfileHeader user={user} name={name} />
-      <StatsRow counts={counts} />
       <VerificationCard user={user} />
-    </div>
-  );
-}
-
-function StatsRow({ counts }) {
-  return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-      {STATS.map((s) => (
-        <Link
-          key={s.label}
-          to={s.to}
-          className="rounded-2xl p-4 sm:p-5 transition-all hover:-translate-y-0.5 group"
-          style={{
-            background: `linear-gradient(135deg, ${s.tone}14, #0D1526CC 60%)`,
-            border: `1px solid ${s.tone}33`,
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            boxShadow: `0 6px 24px -10px ${s.tone}40`,
-          }}
-        >
-          <div
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-lg sm:text-xl mb-3 transition-transform group-hover:scale-110"
-            style={{ background: s.tone + '22', color: s.tone, border: `1px solid ${s.tone}55` }}
-          >
-            {s.icon}
-          </div>
-          <div className="text-xs sm:text-sm font-medium truncate" style={{ color: '#A0AEC0', fontFamily: 'Hind Siliguri, Poppins' }}>
-            {s.label}
-          </div>
-          <div
-            className="mt-1 text-white"
-            style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 'clamp(22px, 4vw, 28px)', lineHeight: 1.1 }}
-          >
-            {s.countKey ? (counts?.[s.countKey] || 0) : '—'}
-          </div>
-        </Link>
-      ))}
     </div>
   );
 }
@@ -95,25 +50,34 @@ function ProfileHeader({ user, name }) {
         style={{ background: 'radial-gradient(400px 200px at 0% 0%, #00D4FF18, transparent 70%)' }}
       />
       <div className="relative flex items-center gap-4 sm:gap-6 flex-wrap">
-        <div className="relative shrink-0">
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={busy}
+          className="relative shrink-0 group"
+          aria-label="edit photo"
+          title="ছবি পরিবর্তন"
+        >
           <Avatar user={user} size={96} />
-          <button
-            onClick={() => fileRef.current?.click()}
-            disabled={busy}
-            className="absolute -bottom-1 -right-1 w-9 h-9 rounded-full flex items-center justify-center transition-transform hover:scale-110"
-            style={{
-              background: 'linear-gradient(90deg, #00D4FF, #1E3A8A)',
-              color: '#fff',
-              border: '2px solid #0D1526',
-              boxShadow: '0 4px 12px #00D4FF55',
-            }}
-            aria-label="upload photo"
-            title="ছবি আপলোড"
+          <span
+            className="absolute inset-0 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            style={{ background: '#0B0F1980' }}
           >
-            {busy ? '…' : '📷'}
-          </button>
-          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
-        </div>
+            <PencilIcon />
+          </span>
+          <span
+            className="absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center"
+            style={{
+              background: '#0D1526',
+              border: '1.5px solid #00D4FF',
+              color: '#00D4FF',
+              boxShadow: '0 0 0 2px #0B0F19',
+            }}
+          >
+            {busy ? '…' : <PencilIcon size={12} />}
+          </span>
+        </button>
+        <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
         <div className="flex-1 min-w-0">
           <h1 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 700, fontSize: 'clamp(22px, 4.5vw, 32px)', lineHeight: 1.2 }}>
             {name}
@@ -152,7 +116,7 @@ function VerificationCard({ user }) {
       style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
     >
       <h2 className="text-white mb-4 sm:mb-5 flex items-center gap-2" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 600, fontSize: 20 }}>
-        🛡️ Verification Status
+        <ShieldOutlineIcon /> Verification Status
       </h2>
       {user.phone && (
         <Row
@@ -180,6 +144,24 @@ function VerificationCard({ user }) {
         </Link>
       </div>
     </div>
+  );
+}
+
+function PencilIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+    </svg>
+  );
+}
+
+function ShieldOutlineIcon({ size = 22 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#00D4FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
   );
 }
 
