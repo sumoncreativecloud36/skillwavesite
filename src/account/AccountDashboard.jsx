@@ -3,14 +3,59 @@ import { useOutletContext, Link } from 'react-router-dom';
 import Avatar from '../components/Avatar.jsx';
 import { supabase, uploadFile } from '../lib/supabase.js';
 
+const STATS = [
+  { to: '/account',              icon: '▦',  label: 'Dashboard',    tone: '#00D4FF', countKey: null },
+  { to: '/account/courses',      icon: '📚', label: 'My Courses',   tone: '#10B981', countKey: 'courses' },
+  { to: '/account/workshops',    icon: '👥', label: 'My Workshops', tone: '#8B5CF6', countKey: 'workshops' },
+  { to: '/account/ebooks',       icon: '📖', label: 'My Ebooks',    tone: '#A855F7', countKey: 'ebooks' },
+];
+
 export default function AccountDashboard() {
-  const { user } = useOutletContext();
+  const { user, counts } = useOutletContext();
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student';
 
   return (
     <div className="space-y-5 sm:space-y-6">
       <ProfileHeader user={user} name={name} />
+      <StatsRow counts={counts} />
       <VerificationCard user={user} />
+    </div>
+  );
+}
+
+function StatsRow({ counts }) {
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {STATS.map((s) => (
+        <Link
+          key={s.label}
+          to={s.to}
+          className="rounded-2xl p-4 sm:p-5 transition-all hover:-translate-y-0.5 group"
+          style={{
+            background: `linear-gradient(135deg, ${s.tone}14, #0D1526CC 60%)`,
+            border: `1px solid ${s.tone}33`,
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            boxShadow: `0 6px 24px -10px ${s.tone}40`,
+          }}
+        >
+          <div
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-lg sm:text-xl mb-3 transition-transform group-hover:scale-110"
+            style={{ background: s.tone + '22', color: s.tone, border: `1px solid ${s.tone}55` }}
+          >
+            {s.icon}
+          </div>
+          <div className="text-xs sm:text-sm font-medium truncate" style={{ color: '#A0AEC0', fontFamily: 'Hind Siliguri, Poppins' }}>
+            {s.label}
+          </div>
+          <div
+            className="mt-1 text-white"
+            style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 'clamp(22px, 4vw, 28px)', lineHeight: 1.1 }}
+          >
+            {s.countKey ? (counts?.[s.countKey] || 0) : '—'}
+          </div>
+        </Link>
+      ))}
     </div>
   );
 }
