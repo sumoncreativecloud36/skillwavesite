@@ -33,7 +33,7 @@ export default function SignUp() {
         options: { data: { full_name: fullName } },
       });
       if (error) throw error;
-      nav('/admin/login', { replace: true });
+      nav('/login', { replace: true });
     } catch (e2) {
       setErr(e2.message || 'Sign up failed');
     } finally {
@@ -156,7 +156,7 @@ export default function SignUp() {
 
         <p className="text-center text-sm" style={{ color: '#9AA8BD' }}>
           Already have an account?{' '}
-          <Link to="/admin/login" style={{ color: '#00D4FF' }} className="font-semibold hover:underline">
+          <Link to="/login" style={{ color: '#00D4FF' }} className="font-semibold hover:underline">
             Login
           </Link>
         </p>

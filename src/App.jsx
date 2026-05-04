@@ -6,6 +6,8 @@ import AboutPage from './pages/About.jsx';
 import BlogPage from './pages/Blog.jsx';
 import AdminLogin from './pages/AdminLogin.jsx';
 import SignUp from './pages/SignUp.jsx';
+import Login from './pages/Login.jsx';
+import Account from './pages/Account.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import RequireAuth from './admin/RequireAuth.jsx';
 import { SiteProvider } from './context/SiteContext.jsx';
@@ -20,6 +22,8 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
           path="/admin/*"

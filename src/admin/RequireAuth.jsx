@@ -3,16 +3,27 @@ import { Navigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase.js';
 
 export default function RequireAuth({ children }) {
-  const [state, setState] = useState({ loading: true, user: null });
+  const [state, setState] = useState({ loading: true, user: null, isAdmin: false });
 
   useEffect(() => {
     let mounted = true;
-    supabase.auth.getSession().then(({ data }) => {
-      if (mounted) setState({ loading: false, user: data.session?.user || null });
-    });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      setState({ loading: false, user: session?.user || null });
-    });
+
+    async function check(session) {
+      const user = session?.user || null;
+      if (!user) {
+        if (mounted) setState({ loading: false, user: null, isAdmin: false });
+        return;
+      }
+      const { data } = await supabase
+        .from('admins')
+        .select('user_id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      if (mounted) setState({ loading: false, user, isAdmin: !!data });
+    }
+
+    supabase.auth.getSession().then(({ data }) => check(data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => check(session));
     return () => {
       mounted = false;
       sub.subscription.unsubscribe();
@@ -21,11 +32,12 @@ export default function RequireAuth({ children }) {
 
   if (state.loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-ink-muted">
+      <div className="min-h-screen flex items-center justify-center" style={{ color: '#A0AEC0' }}>
         লোড হচ্ছে...
       </div>
     );
   }
   if (!state.user) return <Navigate to="/admin/login" replace />;
+  if (!state.isAdmin) return <Navigate to="/account" replace />;
   return children;
 }

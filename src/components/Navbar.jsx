@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSite } from '../context/SiteContext.jsx';
+import { supabase } from '../lib/supabase.js';
 import { SearchIcon, MenuIcon, CloseIcon } from './Icons.jsx';
+
+function userInitials(u) {
+  const src = u?.user_metadata?.full_name || u?.email || '';
+  return src.trim().split(/\s+|@/).slice(0, 2).map((s) => s[0]?.toUpperCase()).join('') || 'SW';
+}
 
 const links = [
   { to: '/', label: 'হোম' },
@@ -12,15 +18,37 @@ const links = [
 ];
 
 export default function Navbar() {
+  const nav = useNavigate();
   const { settings } = useSite();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setUser(data.session?.user || null));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUser(s?.user || null));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = () => setMenuOpen(false);
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [menuOpen]);
+
+  async function logout() {
+    await supabase.auth.signOut();
+    setMenuOpen(false);
+    nav('/');
+  }
 
   return (
     <header
@@ -77,9 +105,59 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <Link to="/signup" className="hidden md:inline-flex btn-primary text-sm">
-          এখনই ভর্তি হন →
-        </Link>
+        {user ? (
+          <div className="hidden md:block relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setMenuOpen((v) => !v)}
+              className="w-10 h-10 rounded-full flex items-center justify-center font-semibold"
+              style={{ background: '#00D4FF22', color: '#00D4FF', border: '2px solid #00D4FF', fontFamily: 'Poppins' }}
+            >
+              {userInitials(user)}
+            </button>
+            {menuOpen && (
+              <div
+                className="absolute right-0 mt-2 w-72 rounded-xl overflow-hidden"
+                style={{ background: '#0D1526EE', border: '1px solid #00D4FF22', backdropFilter: 'blur(12px)', boxShadow: '0 12px 40px #00000088' }}
+              >
+                <div className="p-4 flex items-center gap-3" style={{ borderBottom: '1px solid #00D4FF15' }}>
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center font-semibold"
+                    style={{ background: '#00D4FF22', color: '#00D4FF', border: '2px solid #00D4FF', fontFamily: 'Poppins' }}
+                  >
+                    {userInitials(user)}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-white text-sm font-semibold truncate">
+                      {user.user_metadata?.full_name || 'Student'}
+                    </div>
+                    <div className="text-xs truncate" style={{ color: '#A0AEC0' }}>{user.email}</div>
+                  </div>
+                </div>
+                <Link to="/account" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-sm hover:bg-white/5" style={{ color: '#fff' }}>
+                  👤 My Profile
+                </Link>
+                <Link to="/courses" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-sm hover:bg-white/5" style={{ color: '#fff' }}>
+                  📚 My Courses
+                </Link>
+                <Link to="/ebooks" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-sm hover:bg-white/5" style={{ color: '#fff' }}>
+                  📖 My Ebooks
+                </Link>
+                <button onClick={logout} className="block w-full text-left px-4 py-3 text-sm hover:bg-red-500/10" style={{ color: '#EF4444', borderTop: '1px solid #00D4FF15' }}>
+                  ↪ Logout
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <Link to="/login" className="hidden md:inline-flex text-sm" style={{ color: '#A0AEC0' }}>
+              লগইন
+            </Link>
+            <Link to="/signup" className="hidden md:inline-flex btn-primary text-sm">
+              এখনই ভর্তি হন →
+            </Link>
+          </>
+        )}
 
         <button
           className="lg:hidden ml-auto"
