@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const EBOOK_FALLBACKS = [
   'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=600&q=80',
@@ -12,9 +14,17 @@ function fallbackFor(id = '') {
 export default function EbookCard({ ebook }) {
   const cover = ebook.cover_url || fallbackFor(ebook.id);
   return (
-    <div className="card card-hover overflow-hidden flex flex-col">
-      <div className="overflow-hidden" style={{ aspectRatio: '1 / 1.4', background: '#F3F4F6' }}>
-        <img src={cover} alt={ebook.title} className="w-full h-full object-cover" />
+    <Link
+      to={`/ebooks/${ebook.id}`}
+      className="card card-hover overflow-hidden flex flex-col group"
+    >
+      <div className="overflow-hidden flex items-center justify-center" style={{ aspectRatio: '512 / 800', background: '#F3F4F6' }}>
+        <img
+          src={cover}
+          alt={ebook.title}
+          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+          style={{ background: '#F3F4F6' }}
+        />
       </div>
       <div className="p-4 flex flex-col gap-1.5 flex-1">
         <h3 className="font-head line-clamp-2" style={{ color: '#010202', fontWeight: 600, fontSize: 15, lineHeight: 1.3 }}>
@@ -24,14 +34,10 @@ export default function EbookCard({ ebook }) {
         <div className="gradient-text mt-auto" style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: 17 }}>
           ৳{ebook.price}
         </div>
-        <a
-          href={ebook.purchase_url || '#'}
-          className="btn-outline !px-3 !py-1 self-start mt-2"
-          style={{ fontSize: 12 }}
-        >
+        <span className="btn-outline !px-3 !py-1 self-start mt-2" style={{ fontSize: 12 }}>
           বিস্তারিত →
-        </a>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 }

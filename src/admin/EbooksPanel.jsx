@@ -3,8 +3,8 @@ import { supabase } from '../lib/supabase.js';
 import { PanelHeader, Field, ImageUploader, Toast } from './ui.jsx';
 
 const EMPTY = {
-  title: '', author: '', cover_url: '', price: '',
-  description: '', is_featured: true, purchase_url: '',
+  title: '', author: '', cover_url: '', price: '', original_price: '',
+  description: '', long_description: '', is_featured: true, purchase_url: '',
 };
 
 export default function EbooksPanel() {
@@ -19,7 +19,11 @@ export default function EbooksPanel() {
   useEffect(() => { load(); }, []);
 
   async function save(form) {
-    const payload = { ...form, price: Number(form.price) || 0 };
+    const payload = {
+      ...form,
+      price: Number(form.price) || 0,
+      original_price: Number(form.original_price) || 0,
+    };
     let error;
     if (form.id) {
       ({ error } = await supabase.from('ebooks').update(payload).eq('id', form.id));
@@ -102,11 +106,13 @@ function EbookForm({ initial, onCancel, onSave }) {
       <Field label="শিরোনাম"><input required className="input-dark" value={f.title} onChange={set('title')} /></Field>
       <Field label="লেখক"><input className="input-dark" value={f.author} onChange={set('author')} /></Field>
       <Field label="কভার ছবি"><ImageUploader value={f.cover_url} onChange={set('cover_url')} folder="ebooks" /></Field>
-      <div className="grid md:grid-cols-2 gap-4">
-        <Field label="দাম (৳)"><input type="number" className="input-dark" value={f.price} onChange={set('price')} /></Field>
+      <div className="grid md:grid-cols-3 gap-4">
+        <Field label="সেল প্রাইস (৳)"><input type="number" className="input-dark" value={f.price} onChange={set('price')} /></Field>
+        <Field label="মূল প্রাইস (৳)"><input type="number" className="input-dark" value={f.original_price} onChange={set('original_price')} /></Field>
         <Field label="পারচেজ লিংক"><input className="input-dark" value={f.purchase_url} onChange={set('purchase_url')} /></Field>
       </div>
-      <Field label="বিবরণ"><textarea className="input-dark" rows={3} value={f.description} onChange={set('description')} /></Field>
+      <Field label="শর্ট বিবরণ"><textarea className="input-dark" rows={3} value={f.description} onChange={set('description')} /></Field>
+      <Field label="বিস্তারিত (ডিটেইল পেজে দেখাবে)"><textarea className="input-dark" rows={6} value={f.long_description || ''} onChange={set('long_description')} /></Field>
       <div>
         <button type="button" onClick={toggle('is_featured')} className={f.is_featured ? 'btn-primary' : 'btn-outline'}>
           ফিচার্ড: {f.is_featured ? 'হ্যাঁ' : 'না'}
