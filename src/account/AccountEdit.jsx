@@ -42,9 +42,9 @@ export default function AccountEdit() {
       <form
         onSubmit={saveProfile}
         className="rounded-2xl p-5 sm:p-7 space-y-5"
-        style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
+        style={{ background: '#FFFFFF', border: '1px solid #E5E7EB', boxShadow: '0 6px 20px -10px rgba(107,110,202,0.18)' }}
       >
-        <h1 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 700, fontSize: 22 }}>
+        <h1 style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: 22, color: '#010202' }}>
           ✏️ Edit Profile
         </h1>
         <Field label="Full Name">
@@ -56,7 +56,7 @@ export default function AccountEdit() {
         <Field label="Phone">
           <input className="input-dark" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="8801XXXXXXXXX" />
         </Field>
-        <button type="submit" disabled={busy} className="btn-primary">
+        <button type="submit" disabled={busy} className="btn-gradient">
           {busy ? 'সংরক্ষণ হচ্ছে...' : 'Save Changes'}
         </button>
       </form>
@@ -64,9 +64,9 @@ export default function AccountEdit() {
       <form
         onSubmit={changePassword}
         className="rounded-2xl p-5 sm:p-7 space-y-5"
-        style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
+        style={{ background: '#FFFFFF', border: '1px solid #E5E7EB', boxShadow: '0 6px 20px -10px rgba(107,110,202,0.18)' }}
       >
-        <h2 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 600, fontSize: 18 }}>
+        <h2 style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: 18, color: '#010202' }}>
           🔒 Change Password
         </h2>
         <Field label="New Password">
@@ -75,13 +75,13 @@ export default function AccountEdit() {
         <Field label="Confirm Password">
           <input type="password" className="input-dark" value={pw2} onChange={(e) => setPw2(e.target.value)} />
         </Field>
-        <button type="submit" disabled={busy || !pw} className="btn-primary">
+        <button type="submit" disabled={busy || !pw} className="btn-gradient">
           {busy ? '...' : 'Update Password'}
         </button>
       </form>
 
-      {msg && <div className="text-sm" style={{ color: '#10B981' }}>{msg}</div>}
-      {err && <div className="text-sm text-red-400">{err}</div>}
+      {msg && <div className="text-sm" style={{ color: '#059669' }}>{msg}</div>}
+      {err && <div className="text-sm text-red-600">{err}</div>}
     </div>
   );
 }
@@ -89,7 +89,7 @@ export default function AccountEdit() {
 function Field({ label, children }) {
   return (
     <label className="block">
-      <span className="text-sm" style={{ color: '#A0AEC0' }}>{label}</span>
+      <span className="text-sm font-medium" style={{ color: '#374151' }}>{label}</span>
       <div className="mt-1">{children}</div>
     </label>
   );
@@ -127,18 +127,18 @@ function AvatarUpload({ user }) {
   return (
     <div
       className="rounded-2xl p-5 sm:p-7 flex items-center gap-4 sm:gap-6 flex-wrap"
-      style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
+      style={{ background: '#FFFFFF', border: '1px solid #E5E7EB', boxShadow: '0 6px 20px -10px rgba(107,110,202,0.18)' }}
     >
       <Avatar user={user} size={88} />
       <div className="flex-1 min-w-0">
-        <div className="text-white font-semibold mb-1" style={{ fontFamily: 'Hind Siliguri, Poppins', fontSize: 16 }}>
+        <div className="font-semibold mb-1" style={{ fontFamily: 'Poppins', fontSize: 16, color: '#010202' }}>
           Profile Picture
         </div>
-        <div className="text-xs mb-3" style={{ color: '#A0AEC0' }}>
+        <div className="text-xs mb-3" style={{ color: '#6B7280' }}>
           JPG, PNG বা GIF (সর্বোচ্চ ~2MB)
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button type="button" onClick={() => fileRef.current?.click()} disabled={busy} className="btn-primary text-sm">
+          <button type="button" onClick={() => fileRef.current?.click()} disabled={busy} className="btn-gradient text-sm">
             {busy ? 'আপলোড হচ্ছে...' : '📷 ছবি আপলোড'}
           </button>
           {user.user_metadata?.avatar_url && (
@@ -147,7 +147,7 @@ function AvatarUpload({ user }) {
             </button>
           )}
         </div>
-        {err && <div className="text-xs mt-2 text-red-400">{err}</div>}
+        {err && <div className="text-xs mt-2 text-red-600">{err}</div>}
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handle} />
       </div>
     </div>

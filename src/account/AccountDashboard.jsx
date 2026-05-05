@@ -3,6 +3,12 @@ import { useOutletContext, Link } from 'react-router-dom';
 import Avatar from '../components/Avatar.jsx';
 import { supabase, uploadFile } from '../lib/supabase.js';
 
+const CARD = {
+  background: '#FFFFFF',
+  border: '1px solid #E5E7EB',
+  boxShadow: '0 6px 20px -10px rgba(107,110,202,0.18)',
+};
+
 export default function AccountDashboard() {
   const { user } = useOutletContext();
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student';
@@ -40,14 +46,14 @@ function ProfileHeader({ user, name }) {
     <div
       className="rounded-2xl p-5 sm:p-7 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #0D1526CC, #0A2540AA)',
-        border: '1px solid #00D4FF22',
-        backdropFilter: 'blur(8px)',
+        background: 'linear-gradient(135deg, rgba(107,110,202,0.07), rgba(65,185,248,0.07)), #FFFFFF',
+        border: '1px solid #E5E7EB',
+        boxShadow: '0 8px 28px -12px rgba(107,110,202,0.22)',
       }}
     >
       <div
-        className="absolute inset-0 pointer-events-none opacity-50"
-        style={{ background: 'radial-gradient(400px 200px at 0% 0%, #00D4FF18, transparent 70%)' }}
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(380px 200px at 0% 0%, rgba(65,185,248,0.10), transparent 70%)' }}
       />
       <div className="relative flex items-center gap-4 sm:gap-6 flex-wrap">
         <button
@@ -61,17 +67,17 @@ function ProfileHeader({ user, name }) {
           <Avatar user={user} size={96} />
           <span
             className="absolute inset-0 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            style={{ background: '#0B0F1980' }}
+            style={{ background: 'rgba(1,2,2,0.45)', color: '#fff' }}
           >
             <PencilIcon />
           </span>
           <span
             className="absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center"
             style={{
-              background: '#0D1526',
-              border: '1.5px solid #00D4FF',
-              color: '#00D4FF',
-              boxShadow: '0 0 0 2px #0B0F19',
+              background: '#FFFFFF',
+              border: '1.5px solid #41B9F8',
+              color: '#41B9F8',
+              boxShadow: '0 0 0 2px #FFFFFF, 0 4px 10px -2px rgba(65,185,248,0.4)',
             }}
           >
             {busy ? '…' : <PencilIcon size={12} />}
@@ -79,14 +85,14 @@ function ProfileHeader({ user, name }) {
         </button>
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
         <div className="flex-1 min-w-0">
-          <h1 className="text-white" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 700, fontSize: 'clamp(22px, 4.5vw, 32px)', lineHeight: 1.2 }}>
+          <h1 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 'clamp(22px, 4.5vw, 32px)', lineHeight: 1.2, color: '#010202' }}>
             {name}
           </h1>
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-y-1 gap-x-6 mt-2 text-sm" style={{ color: '#A0AEC0' }}>
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-y-1 gap-x-6 mt-2 text-sm" style={{ color: '#6B7280' }}>
             {user.email && <span className="truncate">✉ {user.email}</span>}
             {user.phone && <span className="truncate">📞 +{user.phone}</span>}
           </div>
-          {err && <div className="text-xs mt-2 text-red-400">{err}</div>}
+          {err && <div className="text-xs mt-2 text-red-600">{err}</div>}
         </div>
       </div>
     </div>
@@ -111,35 +117,18 @@ function VerificationCard({ user }) {
   }
 
   return (
-    <div
-      className="rounded-2xl p-5 sm:p-7"
-      style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
-    >
-      <h2 className="text-white mb-4 sm:mb-5 flex items-center gap-2" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 600, fontSize: 20 }}>
+    <div className="rounded-2xl p-5 sm:p-7" style={CARD}>
+      <h2 className="mb-4 sm:mb-5 flex items-center gap-2" style={{ fontFamily: 'Poppins', fontWeight: 600, fontSize: 20, color: '#010202' }}>
         <ShieldOutlineIcon /> Verification Status
       </h2>
       {user.phone && (
-        <Row
-          label={`+${user.phone}`}
-          icon="📞"
-          verified={!!user.phone_confirmed_at}
-          onVerify={verifyPhone}
-          busy={busy === 'phone'}
-          actionLabel="Verify Phone"
-        />
+        <Row label={`+${user.phone}`} icon="📞" verified={!!user.phone_confirmed_at} onVerify={verifyPhone} busy={busy === 'phone'} actionLabel="Verify Phone" />
       )}
-      <Row
-        label={user.email}
-        icon="✉"
-        verified={!!user.email_confirmed_at}
-        onVerify={verifyEmail}
-        busy={busy === 'email'}
-        actionLabel="Verify Email"
-      />
-      {msg && <div className="text-sm mt-4" style={{ color: '#A0AEC0' }}>{msg}</div>}
+      <Row label={user.email} icon="✉" verified={!!user.email_confirmed_at} onVerify={verifyEmail} busy={busy === 'email'} actionLabel="Verify Email" />
+      {msg && <div className="text-sm mt-4" style={{ color: '#6B7280' }}>{msg}</div>}
 
-      <div className="mt-6 pt-5" style={{ borderTop: '1px solid #00D4FF15' }}>
-        <Link to="/account/edit" className="text-sm font-semibold inline-flex items-center gap-1 hover:underline" style={{ color: '#00D4FF' }}>
+      <div className="mt-6 pt-5" style={{ borderTop: '1px solid #E5E7EB' }}>
+        <Link to="/account/edit" className="text-sm font-semibold inline-flex items-center gap-1 gradient-text hover:underline">
           ⚙️ Edit Profile & Settings →
         </Link>
       </div>
@@ -158,7 +147,7 @@ function PencilIcon({ size = 18 }) {
 
 function ShieldOutlineIcon({ size = 22 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#00D4FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#41B9F8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       <path d="M9 12l2 2 4-4" />
     </svg>
@@ -167,23 +156,23 @@ function ShieldOutlineIcon({ size = 22 }) {
 
 function Row({ label, icon, verified, onVerify, busy, actionLabel }) {
   return (
-    <div className="flex items-center justify-between py-3 sm:py-4 flex-wrap gap-3" style={{ borderTop: '1px solid #00D4FF15' }}>
+    <div className="flex items-center justify-between py-3 sm:py-4 flex-wrap gap-3" style={{ borderTop: '1px solid #E5E7EB' }}>
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <span style={{ color: '#A0AEC0' }}>{icon}</span>
-        <span className="text-white text-sm sm:text-base truncate">{label}</span>
+        <span style={{ color: '#6B7280' }}>{icon}</span>
+        <span className="text-sm sm:text-base truncate" style={{ color: '#010202' }}>{label}</span>
         <span
           className="text-xs px-3 py-1 rounded-full font-semibold shrink-0"
           style={
             verified
-              ? { background: '#10B98122', color: '#10B981', border: '1px solid #10B98155' }
-              : { background: '#F9731622', color: '#F97316', border: '1px solid #F9731655' }
+              ? { background: 'rgba(16,185,129,0.10)', color: '#059669', border: '1px solid rgba(16,185,129,0.35)' }
+              : { background: 'rgba(249,115,22,0.10)', color: '#EA580C', border: '1px solid rgba(249,115,22,0.35)' }
           }
         >
           {verified ? '✓ Verified' : 'ⓘ Not Verified'}
         </span>
       </div>
       {!verified && (
-        <button onClick={onVerify} disabled={busy} className="btn-primary text-xs sm:text-sm">
+        <button onClick={onVerify} disabled={busy} className="btn-gradient text-xs sm:text-sm">
           {busy ? '...' : actionLabel}
         </button>
       )}

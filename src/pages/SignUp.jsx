@@ -44,28 +44,25 @@ export default function SignUp() {
   return (
     <div
       className="min-h-screen flex flex-col items-center px-4 py-10"
-      style={{ background: 'linear-gradient(160deg, #061722 0%, #0A2540 60%, #0B3A4A 100%)' }}
+      style={{ background: 'linear-gradient(45deg, rgba(107,110,202,0.10), rgba(65,185,248,0.10))' }}
     >
-      <div className="flex items-center gap-2 mb-8">
-        <GlobeIcon />
-        <span className="text-[#FF8A3D] font-bold text-xl tracking-wide">Learning Bangladesh</span>
-      </div>
+      <Link to="/" className="mb-8 gradient-text" style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: 28, textDecoration: 'none' }}>
+        SkillWave
+      </Link>
 
       <form
         onSubmit={submit}
-        className="w-full max-w-md rounded-2xl p-8 space-y-5 shadow-2xl"
-        style={{ background: '#0D1526', border: '1px solid #00D4FF22' }}
+        className="w-full max-w-md rounded-2xl p-8 space-y-5"
+        style={{ background: '#FFFFFF', border: '1px solid #E5E7EB', boxShadow: '0 24px 60px -20px rgba(107,110,202,0.25)' }}
       >
         <div className="text-center">
-          <h1 className="text-white font-bold text-3xl">Sign Up</h1>
-          <p className="text-ink-muted text-sm mt-1" style={{ color: '#9AA8BD' }}>
-            Create your account
-          </p>
+          <h1 style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: 28, color: '#010202' }}>Sign Up</h1>
+          <p className="text-sm mt-1" style={{ color: '#6B7280' }}>Create your account</p>
         </div>
 
         <div
           className="grid grid-cols-2 p-1 rounded-full"
-          style={{ background: '#0A1220', border: '1px solid #00D4FF22' }}
+          style={{ background: '#F3F4F6' }}
         >
           <button
             type="button"
@@ -73,8 +70,8 @@ export default function SignUp() {
             className="py-2 rounded-full text-sm font-semibold transition"
             style={
               method === 'phone'
-                ? { background: 'linear-gradient(90deg, #00D4FF, #1E3A8A)', color: '#fff' }
-                : { color: '#9AA8BD', background: 'transparent' }
+                ? { background: 'linear-gradient(45deg, #6B6ECA, #41B9F8)', color: '#fff' }
+                : { color: '#6B7280', background: 'transparent' }
             }
           >
             Via Phone
@@ -85,8 +82,8 @@ export default function SignUp() {
             className="py-2 rounded-full text-sm font-semibold transition"
             style={
               method === 'email'
-                ? { background: 'linear-gradient(90deg, #00D4FF, #1E3A8A)', color: '#fff' }
-                : { color: '#9AA8BD', background: 'transparent' }
+                ? { background: 'linear-gradient(45deg, #6B6ECA, #41B9F8)', color: '#fff' }
+                : { color: '#6B7280', background: 'transparent' }
             }
           >
             Via Email
@@ -105,9 +102,9 @@ export default function SignUp() {
 
           <div
             className="flex items-stretch rounded-[10px] overflow-hidden"
-            style={{ border: '1px solid #00D4FF33', background: '#0D1526' }}
+            style={{ border: '1px solid #E5E7EB', background: '#fff' }}
           >
-            <span className="flex items-center gap-1 px-3 text-white text-sm border-r border-[#00D4FF22]">
+            <span className="flex items-center gap-1 px-3 text-sm" style={{ color: '#374151', borderRight: '1px solid #E5E7EB' }}>
               <span>🇧🇩</span>
               <span>+88</span>
             </span>
@@ -116,7 +113,8 @@ export default function SignUp() {
               required={method === 'phone'}
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="flex-1 bg-transparent px-3 py-[10px] text-white outline-none"
+              className="flex-1 bg-transparent px-3 py-[10px] outline-none"
+              style={{ color: '#010202' }}
               placeholder="Phone Number"
             />
           </div>
@@ -146,17 +144,17 @@ export default function SignUp() {
           />
         </div>
 
-        {err && <div className="text-red-400 text-sm">{err}</div>}
+        {err && <div className="text-red-600 text-sm">{err}</div>}
 
-        <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
+        <button type="submit" disabled={busy} className="btn-gradient w-full justify-center">
           {busy ? 'Signing up...' : 'Sign Up'}
         </button>
 
-        <div className="h-px w-full" style={{ background: '#00D4FF22' }} />
+        <div className="h-px w-full" style={{ background: '#E5E7EB' }} />
 
-        <p className="text-center text-sm" style={{ color: '#9AA8BD' }}>
+        <p className="text-center text-sm" style={{ color: '#6B7280' }}>
           Already have an account?{' '}
-          <Link to="/login" style={{ color: '#00D4FF' }} className="font-semibold hover:underline">
+          <Link to="/login" className="gradient-text font-semibold">
             Login
           </Link>
         </p>
@@ -179,7 +177,8 @@ function PasswordField({ value, onChange, show, toggle, placeholder }) {
       <button
         type="button"
         onClick={toggle}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9AA8BD] hover:text-white"
+        className="absolute right-3 top-1/2 -translate-y-1/2"
+        style={{ color: '#9CA3AF' }}
         aria-label={show ? 'Hide password' : 'Show password'}
       >
         {show ? <EyeOffIcon /> : <EyeIcon />}

@@ -6,14 +6,14 @@ import Avatar from '../components/Avatar.jsx';
 import { supabase } from '../lib/supabase.js';
 
 const NAV = [
-  { to: '/account',              label: 'Dashboard',     icon: '▦', tone: '#00D4FF' },
+  { to: '/account',              label: 'Dashboard',     icon: '▦', tone: '#41B9F8' },
   { to: '/account/courses',      label: 'My Courses',    icon: '📚', tone: '#10B981', count: 'courses' },
-  { to: '/account/workshops',    label: 'My Workshops',  icon: '👥', tone: '#8B5CF6', count: 'workshops' },
+  { to: '/account/workshops',    label: 'My Workshops',  icon: '👥', tone: '#6B6ECA', count: 'workshops' },
   { to: '/account/ebooks',       label: 'My Ebooks',     icon: '📖', tone: '#A855F7', count: 'ebooks' },
   { to: '/account/bundles',      label: 'My Bundles',    icon: '📦', tone: '#F97316', count: 'bundles' },
   { to: '/account/certificates', label: 'Certificates',  icon: '🏅', tone: '#EF4444', count: 'certs' },
   { to: '/account/orders',       label: 'My Orders',     icon: '🧾', tone: '#06B6D4' },
-  { to: '/account/edit',         label: 'Edit Profile',  icon: '⚙️', tone: '#A0AEC0' },
+  { to: '/account/edit',         label: 'Edit Profile',  icon: '⚙️', tone: '#6B7280' },
 ];
 
 const PAGE_TITLES = {
@@ -25,6 +25,12 @@ const PAGE_TITLES = {
   '/account/certificates': 'Certificates',
   '/account/orders': 'My Orders',
   '/account/edit': 'Settings',
+};
+
+const CARD = {
+  background: '#FFFFFF',
+  border: '1px solid #E5E7EB',
+  boxShadow: '0 6px 20px -10px rgba(107,110,202,0.18)',
 };
 
 export default function AccountLayout() {
@@ -60,7 +66,7 @@ export default function AccountLayout() {
   }, [state.user]);
 
   if (state.loading) {
-    return <div className="min-h-screen flex items-center justify-center" style={{ color: '#A0AEC0' }}>লোড হচ্ছে...</div>;
+    return <div className="min-h-screen flex items-center justify-center" style={{ color: '#6B7280' }}>লোড হচ্ছে...</div>;
   }
   if (!state.user) return <Navigate to="/login" replace />;
 
@@ -71,41 +77,31 @@ export default function AccountLayout() {
   return (
     <>
       <Navbar />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-16 sm:pb-20">
-        <div className="text-sm mb-5 sm:mb-6 flex items-center gap-2 flex-wrap" style={{ color: '#A0AEC0' }}>
-          <Link to="/" className="hover:text-cyan-glow flex items-center gap-1">🏠 Home</Link>
+      <main
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-16 sm:pb-20"
+        style={{ background: 'linear-gradient(180deg, rgba(65,185,248,0.04), transparent 240px)' }}
+      >
+        <div className="text-sm mb-5 sm:mb-6 flex items-center gap-2 flex-wrap" style={{ color: '#6B7280', fontFamily: 'Inter' }}>
+          <Link to="/" className="flex items-center gap-1 hover:text-[#41B9F8]">🏠 Home</Link>
           <span>›</span>
-          <span style={{ color: '#fff' }}>{pageTitle}</span>
+          <span style={{ color: '#010202', fontWeight: 500 }}>{pageTitle}</span>
         </div>
 
         <div className="grid lg:grid-cols-[300px,1fr] xl:grid-cols-[320px,1fr] gap-5 lg:gap-6">
           <aside className="space-y-4">
-            <div
-              className="rounded-2xl p-4 sm:p-5 flex items-center gap-3"
-              style={{
-                background: 'linear-gradient(135deg, #0D1526CC, #0A2540AA)',
-                border: '1px solid #00D4FF22',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-              }}
-            >
+            <div className="rounded-2xl p-4 sm:p-5 flex items-center gap-3" style={CARD}>
               <Avatar user={u} size={56} />
               <div className="min-w-0">
-                <div className="text-white font-semibold truncate" style={{ fontFamily: 'Hind Siliguri, Poppins' }}>
+                <div className="font-semibold truncate" style={{ fontFamily: 'Poppins', color: '#010202' }}>
                   {name}
                 </div>
-                <div className="text-xs truncate" style={{ color: '#A0AEC0' }}>{u.email}</div>
+                <div className="text-xs truncate" style={{ color: '#6B7280' }}>{u.email}</div>
               </div>
             </div>
 
             <nav
               className="rounded-2xl p-2 grid grid-cols-4 lg:grid-cols-1 gap-1"
-              style={{
-                background: '#0D1526CC',
-                border: '1px solid #00D4FF22',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-              }}
+              style={CARD}
             >
               {NAV.map((item) => (
                 <NavLink
@@ -115,10 +111,10 @@ export default function AccountLayout() {
                   className="flex flex-col lg:flex-row items-center lg:gap-3 gap-1 px-2 lg:px-3 py-3 lg:py-2.5 rounded-xl transition-all relative"
                   style={({ isActive }) => ({
                     background: isActive
-                      ? 'linear-gradient(90deg, #00D4FF22, #00D4FF05)'
+                      ? 'linear-gradient(90deg, rgba(65,185,248,0.10), rgba(107,110,202,0.05))'
                       : 'transparent',
-                    color: isActive ? '#00D4FF' : '#fff',
-                    boxShadow: isActive ? 'inset 3px 0 0 #00D4FF' : 'none',
+                    color: isActive ? '#41B9F8' : '#374151',
+                    boxShadow: isActive ? 'inset 3px 0 0 #41B9F8' : 'none',
                   })}
                 >
                   {({ isActive }) => (
@@ -126,9 +122,9 @@ export default function AccountLayout() {
                       <span
                         className="w-9 h-9 rounded-lg flex items-center justify-center text-sm shrink-0 transition-transform"
                         style={{
-                          background: isActive ? '#00D4FF22' : item.tone + '1A',
-                          color: isActive ? '#00D4FF' : item.tone,
-                          border: `1px solid ${isActive ? '#00D4FF55' : item.tone + '40'}`,
+                          background: isActive ? 'rgba(65,185,248,0.15)' : item.tone + '1A',
+                          color: isActive ? '#41B9F8' : item.tone,
+                          border: `1px solid ${isActive ? 'rgba(65,185,248,0.4)' : item.tone + '40'}`,
                           transform: isActive ? 'scale(1.05)' : 'scale(1)',
                         }}
                       >
@@ -136,7 +132,7 @@ export default function AccountLayout() {
                       </span>
                       <span
                         className="lg:flex-1 font-medium truncate text-center lg:text-left"
-                        style={{ fontFamily: 'Hind Siliguri, Poppins', fontSize: 12, lineHeight: 1.2 }}
+                        style={{ fontFamily: 'Poppins, Hind Siliguri', fontSize: 12, lineHeight: 1.2 }}
                       >
                         <span className="lg:hidden block">{item.label.replace(/^My /, '')}</span>
                         <span className="hidden lg:inline" style={{ fontSize: 14 }}>{item.label}</span>

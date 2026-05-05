@@ -20,10 +20,11 @@ export default function Avatar({ user, size = 48, ring = true, className = '' })
     fontFamily: 'Poppins, sans-serif',
     fontSize,
     fontWeight: 700,
-    border: ring ? '2px solid #00D4FF' : 'none',
-    background: '#00D4FF22',
-    color: '#00D4FF',
+    border: ring ? '2px solid rgba(255,255,255,0.6)' : 'none',
+    background: 'linear-gradient(45deg, #6B6ECA, #41B9F8)',
+    color: '#FFFFFF',
     flexShrink: 0,
+    boxShadow: ring ? '0 4px 14px -4px rgba(65,185,248,0.45)' : 'none',
   };
   return (
     <div className={`rounded-full overflow-hidden flex items-center justify-center ${className}`} style={style}>

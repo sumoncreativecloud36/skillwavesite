@@ -41,36 +41,33 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ background: 'linear-gradient(45deg, rgba(107,110,202,0.10), rgba(65,185,248,0.10))' }}
+    >
       <form
         onSubmit={submit}
         className="w-full max-w-md p-8 space-y-5 rounded-2xl"
-        style={{ background: '#0D1526CC', border: '1px solid #00D4FF22', backdropFilter: 'blur(8px)' }}
+        style={{ background: '#FFFFFF', border: '1px solid #E5E7EB', boxShadow: '0 24px 60px -20px rgba(107,110,202,0.25)' }}
       >
         <div className="text-center">
-          <h1 className="gradient-text" style={{ fontFamily: 'Hind Siliguri, Poppins', fontWeight: 700, fontSize: 24 }}>
+          <h1 className="gradient-text" style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: 26 }}>
             SkillWave অ্যাডমিন
           </h1>
-          <p className="text-sm mt-2" style={{ color: '#A0AEC0' }}>
-            শুধু অ্যাডমিনদের জন্য। স্টুডেন্টরা <Link to="/login" style={{ color: '#00D4FF' }}>এখানে</Link> লগইন করুন।
+          <p className="text-sm mt-2" style={{ color: '#6B7280' }}>
+            শুধু অ্যাডমিনদের জন্য। স্টুডেন্টরা <Link to="/login" className="gradient-text" style={{ fontWeight: 600 }}>এখানে</Link> লগইন করুন।
           </p>
         </div>
         <label className="block">
-          <span className="text-sm" style={{ color: '#A0AEC0' }}>ইমেইল</span>
-          <input
-            type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-            className="input-dark mt-1" placeholder="admin@skillwave.com"
-          />
+          <span className="text-sm font-medium" style={{ color: '#374151' }}>ইমেইল</span>
+          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="input-dark mt-1" placeholder="admin@skillwave.com" />
         </label>
         <label className="block">
-          <span className="text-sm" style={{ color: '#A0AEC0' }}>পাসওয়ার্ড</span>
-          <input
-            type="password" required value={pw} onChange={(e) => setPw(e.target.value)}
-            className="input-dark mt-1" placeholder="••••••••"
-          />
+          <span className="text-sm font-medium" style={{ color: '#374151' }}>পাসওয়ার্ড</span>
+          <input type="password" required value={pw} onChange={(e) => setPw(e.target.value)} className="input-dark mt-1" placeholder="••••••••" />
         </label>
-        {err && <div className="text-red-400 text-sm">{err}</div>}
-        <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
+        {err && <div className="text-red-600 text-sm">{err}</div>}
+        <button type="submit" disabled={busy} className="btn-gradient w-full justify-center">
           {busy ? 'লগইন হচ্ছে...' : 'লগইন করুন'}
         </button>
       </form>

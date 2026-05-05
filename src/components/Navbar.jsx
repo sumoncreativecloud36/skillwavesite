@@ -53,92 +53,23 @@ export default function Navbar() {
     nav('/');
   }
 
-  const userMenu = (
-    <div className="relative" onClick={(e) => e.stopPropagation()}>
-      <button
-        onClick={() => setMenuOpen((v) => !v)}
-        className="rounded-full transition-transform hover:scale-105"
-        aria-label="account menu"
-      >
-        <Avatar user={user} size={40} />
-      </button>
-      {menuOpen && (
-        <div
-          className="absolute right-0 mt-3 w-72 rounded-2xl overflow-hidden"
-          style={{
-            background: '#0D1526EE',
-            border: '1px solid #00D4FF33',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            boxShadow: '0 20px 60px #00000099, 0 0 0 1px #00D4FF11',
-          }}
-        >
-          <div
-            className="p-4 flex items-center gap-3"
-            style={{
-              background: 'linear-gradient(180deg, #00D4FF12, transparent)',
-              borderBottom: '1px solid #00D4FF15',
-            }}
-          >
-            <Avatar user={user} size={48} />
-            <div className="min-w-0">
-              <div className="text-white text-sm font-semibold truncate" style={{ fontFamily: 'Hind Siliguri, Poppins' }}>
-                {user.user_metadata?.full_name || 'Student'}
-              </div>
-              <div className="text-xs truncate" style={{ color: '#A0AEC0' }}>{user.email}</div>
-            </div>
-          </div>
-          <div className="py-1">
-            {MENU.map((m) => (
-              <Link
-                key={m.to}
-                to={m.to}
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-sm transition-colors hover:bg-white/[0.04]"
-                style={{ color: '#fff' }}
-              >
-                <span className="w-7 text-center text-base">{m.icon}</span>
-                <span>{m.label}</span>
-              </Link>
-            ))}
-          </div>
-          <button
-            onClick={logout}
-            className="flex items-center gap-3 w-full text-left px-4 py-3 text-sm transition-colors hover:bg-red-500/10"
-            style={{ color: '#EF4444', borderTop: '1px solid #00D4FF15' }}
-          >
-            <span className="w-7 text-center text-base">↪</span>
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
-  );
-
   return (
     <header
       className="sticky top-0 z-50 transition-all"
       style={{
-        background: scrolled ? '#0B0F19CC' : 'transparent',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid #00D4FF22',
+        background: scrolled ? '#FFFFFFEE' : '#FFFFFFCC',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        borderBottom: scrolled ? '1px solid #E5E7EB' : '1px solid transparent',
+        boxShadow: scrolled ? '0 4px 24px -8px rgba(1,2,2,0.06)' : 'none',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center gap-3 lg:gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-3 lg:gap-4">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           {settings.logo_url ? (
             <img src={settings.logo_url} alt="SkillWave" className="h-8 lg:h-9 w-auto" />
           ) : (
-            <span
-              style={{
-                color: '#00D4FF',
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 700,
-                fontSize: 22,
-                letterSpacing: '-0.02em',
-              }}
-            >
+            <span className="gradient-text" style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: 24, letterSpacing: '-0.02em' }}>
               SkillWave
             </span>
           )}
@@ -146,17 +77,17 @@ export default function Navbar() {
 
         <div className="hidden md:flex flex-1 max-w-md mx-2">
           <div className="relative w-full">
-            <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#00D4FF' }} />
+            <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#41B9F8' }} />
             <input
               className="input-dark pl-10"
-              style={{ borderRadius: 24 }}
+              style={{ borderRadius: 999, background: '#F3F4F6', border: '1px solid transparent' }}
               placeholder="কোর্স খুঁজুন..."
               aria-label="search"
             />
           </div>
         </div>
 
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-7">
           {links.map((l) => (
             <NavLink
               key={l.label}
@@ -166,9 +97,10 @@ export default function Navbar() {
               style={({ isActive }) => ({
                 fontSize: 14,
                 fontWeight: 500,
-                color: isActive ? '#00D4FF' : '#A0AEC0',
-                borderBottom: isActive ? '2px solid #00D4FF' : '2px solid transparent',
+                color: isActive ? '#41B9F8' : '#374151',
+                borderBottom: isActive ? '2px solid #41B9F8' : '2px solid transparent',
                 paddingBottom: 4,
+                fontFamily: 'Poppins',
               })}
             >
               {l.label}
@@ -178,76 +110,99 @@ export default function Navbar() {
 
         <div className="ml-auto flex items-center gap-2 lg:gap-3">
           {user ? (
-            userMenu
+            <div className="relative" onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={() => setMenuOpen((v) => !v)}
+                className="rounded-full transition-transform hover:scale-105"
+                aria-label="account menu"
+              >
+                <Avatar user={user} size={40} />
+              </button>
+              {menuOpen && (
+                <div
+                  className="absolute right-0 mt-3 w-72 rounded-2xl overflow-hidden"
+                  style={{
+                    background: '#FFFFFF',
+                    border: '1px solid #E5E7EB',
+                    boxShadow: '0 24px 56px -16px rgba(1,2,2,0.18)',
+                  }}
+                >
+                  <div className="p-4 flex items-center gap-3" style={{ background: 'linear-gradient(45deg, rgba(107,110,202,0.08), rgba(65,185,248,0.08))', borderBottom: '1px solid #E5E7EB' }}>
+                    <Avatar user={user} size={48} />
+                    <div className="min-w-0">
+                      <div style={{ color: '#010202', fontSize: 14, fontWeight: 600, fontFamily: 'Poppins' }} className="truncate">
+                        {user.user_metadata?.full_name || 'Student'}
+                      </div>
+                      <div className="text-xs truncate" style={{ color: '#6B7280' }}>{user.email}</div>
+                    </div>
+                  </div>
+                  <div className="py-1">
+                    {MENU.map((m) => (
+                      <Link
+                        key={m.to}
+                        to={m.to}
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-sm transition-colors hover:bg-gray-50"
+                        style={{ color: '#010202' }}
+                      >
+                        <span className="w-7 text-center text-base">{m.icon}</span>
+                        <span>{m.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                  <button
+                    onClick={logout}
+                    className="flex items-center gap-3 w-full text-left px-4 py-3 text-sm transition-colors hover:bg-red-50"
+                    style={{ color: '#DC2626', borderTop: '1px solid #E5E7EB' }}
+                  >
+                    <span className="w-7 text-center text-base">↪</span>
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <>
-              <Link to="/login" className="hidden sm:inline-flex text-sm" style={{ color: '#A0AEC0' }}>
+              <Link to="/login" className="hidden sm:inline-flex text-sm font-semibold" style={{ color: '#374151', fontFamily: 'Poppins' }}>
                 লগইন
               </Link>
-              <Link to="/signup" className="hidden sm:inline-flex btn-primary text-sm">
+              <Link to="/signup" className="hidden sm:inline-flex btn-gradient text-sm">
                 ভর্তি হন →
               </Link>
             </>
           )}
 
-          <button
-            className="lg:hidden"
-            style={{ color: '#A0AEC0' }}
-            onClick={() => setOpen((v) => !v)}
-            aria-label="menu"
-          >
+          <button className="lg:hidden" style={{ color: '#374151' }} onClick={() => setOpen((v) => !v)} aria-label="menu">
             {open ? <CloseIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="lg:hidden border-t" style={{ borderColor: '#00D4FF22', background: '#0B0F19F5' }}>
+        <div className="lg:hidden border-t" style={{ borderColor: '#E5E7EB', background: '#FFFFFFF8' }}>
           <div className="px-4 py-4 flex flex-col gap-3">
             <div className="relative">
-              <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#00D4FF' }} />
-              <input className="input-dark pl-10" style={{ borderRadius: 24 }} placeholder="কোর্স খুঁজুন..." />
+              <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#41B9F8' }} />
+              <input className="input-dark pl-10" style={{ borderRadius: 999, background: '#F3F4F6', border: '1px solid transparent' }} placeholder="কোর্স খুঁজুন..." />
             </div>
             {links.map((l) => (
-              <Link
-                key={l.label}
-                to={l.to}
-                className="py-2 text-base"
-                style={{ color: '#A0AEC0' }}
-                onClick={() => setOpen(false)}
-              >
+              <Link key={l.label} to={l.to} className="py-2" style={{ color: '#374151', fontFamily: 'Poppins', fontWeight: 500 }} onClick={() => setOpen(false)}>
                 {l.label}
               </Link>
             ))}
-            {!user && (
+            {!user ? (
               <>
-                <Link to="/login" className="btn-outline justify-center" onClick={() => setOpen(false)}>
-                  লগইন
-                </Link>
-                <Link to="/signup" className="btn-primary justify-center" onClick={() => setOpen(false)}>
-                  ভর্তি হন →
-                </Link>
+                <Link to="/login" className="btn-outline justify-center" onClick={() => setOpen(false)}>লগইন</Link>
+                <Link to="/signup" className="btn-gradient justify-center" onClick={() => setOpen(false)}>ভর্তি হন →</Link>
               </>
-            )}
-            {user && (
-              <div className="pt-2" style={{ borderTop: '1px solid #00D4FF22' }}>
+            ) : (
+              <div className="pt-2" style={{ borderTop: '1px solid #E5E7EB' }}>
                 {MENU.map((m) => (
-                  <Link
-                    key={m.to}
-                    to={m.to}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center gap-3 py-2.5 text-sm"
-                    style={{ color: '#fff' }}
-                  >
-                    <span className="w-6 text-center">{m.icon}</span>
-                    {m.label}
+                  <Link key={m.to} to={m.to} onClick={() => setOpen(false)} className="flex items-center gap-3 py-2.5 text-sm" style={{ color: '#010202' }}>
+                    <span className="w-6 text-center">{m.icon}</span>{m.label}
                   </Link>
                 ))}
-                <button
-                  onClick={() => { setOpen(false); logout(); }}
-                  className="flex items-center gap-3 py-2.5 text-sm w-full text-left"
-                  style={{ color: '#EF4444' }}
-                >
+                <button onClick={() => { setOpen(false); logout(); }} className="flex items-center gap-3 py-2.5 text-sm w-full text-left" style={{ color: '#DC2626' }}>
                   <span className="w-6 text-center">↪</span> Logout
                 </button>
               </div>

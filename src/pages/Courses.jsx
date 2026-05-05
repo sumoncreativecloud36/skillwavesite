@@ -45,9 +45,9 @@ export default function CoursesPage() {
         </div>
 
         {loading ? (
-          <div className="text-center py-20" style={{ color: '#7C8AA3' }}>লোড হচ্ছে...</div>
+          <div className="text-center py-20" style={{ color: '#6B7280' }}>লোড হচ্ছে...</div>
         ) : filtered.length === 0 ? (
-          <div className="card p-12 text-center" style={{ color: '#7C8AA3' }}>
+          <div className="card p-12 text-center" style={{ color: '#6B7280' }}>
             কোনো কোর্স পাওয়া যায়নি
           </div>
         ) : (
