@@ -8,9 +8,9 @@
   --brand-gradient: linear-gradient(45deg, #6B6ECA, #41B9F8);
   --rich-black: #010202;
   --soft-gray: #F3F4F6;
-  --line: #E5E7EB;
+  --line: #E8EAF2;
   --muted: #6B7280;
-  --bg: #FFFFFF;
+  --bg: #F6F8FD;
   --surface: #FFFFFF;
   --text: #010202;
   --text-soft: #374151;
@@ -33,7 +33,11 @@
 html, body, #root { min-height: 100vh; }
 
 body {
-  background: #FFFFFF;
+  background:
+    radial-gradient(900px 700px at 100% 0%, rgba(65, 185, 248, 0.06), transparent 60%),
+    radial-gradient(900px 700px at 0% 100%, rgba(107, 110, 202, 0.06), transparent 60%),
+    linear-gradient(180deg, #F4F7FE 0%, #FAFBFF 100%);
+  background-attachment: fixed;
   font-family: 'Inter', 'Hind Siliguri', Arial, Helvetica, sans-serif;
   color: var(--rich-black);
   line-height: 1.65;
@@ -134,7 +138,7 @@ h3 { font-weight: 600; font-size: 22px; }
     background: #FFFFFF;
     border: 1px solid var(--line);
     border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(1,2,2,0.04), 0 4px 14px -8px rgba(107,110,202,0.10);
+    box-shadow: 0 1px 2px rgba(107, 110, 202, 0.05), 0 8px 24px -10px rgba(107, 110, 202, 0.14);
     transition: all 0.25s ease;
   }
   .card-hover:hover {
