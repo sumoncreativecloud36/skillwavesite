@@ -182,6 +182,37 @@ h3 { font-weight: 600; font-size: 22px; }
   .text-ink-muted { color: var(--muted); }
 }
 
+/* Admin shell — dark gray theme override */
+.admin-shell { color: #E5E7EB; }
+.admin-shell h1, .admin-shell h2, .admin-shell h3, .admin-shell h4 { color: #F3F4F6; }
+.admin-shell .gradient-text {
+  background: linear-gradient(45deg, #6B6ECA, #41B9F8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.admin-shell .card {
+  background: #111827;
+  border: 1px solid #1F2937;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.6);
+}
+.admin-shell .input-dark {
+  background: #0F172A;
+  border: 1px solid #1F2937;
+  color: #F3F4F6;
+}
+.admin-shell .input-dark::placeholder { color: #6B7280; }
+.admin-shell .input-dark:focus {
+  border-color: #41B9F8;
+  box-shadow: 0 0 0 3px rgba(65,185,248,0.18);
+}
+.admin-shell .btn-outline { background: transparent; border-color: #41B9F8; color: #41B9F8; }
+.admin-shell .btn-outline:hover { background: rgba(65,185,248,0.10); }
+.admin-shell .text-ink-muted { color: #9CA3AF !important; }
+.admin-shell table { color: #E5E7EB; }
+.admin-shell table th { color: #9CA3AF; }
+.admin-shell table tbody tr { border-color: #1F2937 !important; }
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: #F3F4F6; }
 ::-webkit-scrollbar-thumb { background: rgba(107, 110, 202, 0.4); border-radius: 4px; }
