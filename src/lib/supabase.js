@@ -12,10 +12,18 @@ export const supabase = createClient(supabaseUrl || 'https://placeholder.supabas
 export const STORAGE_BUCKET = 'skillwave';
 
 export async function uploadFile(file, folder = 'uploads') {
-  const ext = file.name.split('.').pop();
+  const rawExt = (file.name.split('.').pop() || 'bin').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const ext = rawExt.length ? rawExt : 'bin';
   const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: false });
-  if (error) throw error;
+  const { error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .upload(path, file, { upsert: false, contentType: file.type || undefined });
+  if (error) {
+    const msg = error.message || String(error);
+    throw new Error(/policy|permission|denied|unauthor/i.test(msg)
+      ? `${msg} (লগইন করেছেন তো? Storage RLS অনুমতি প্রয়োজন।)`
+      : msg);
+  }
   const { data } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(path);
   return data.publicUrl;
 }
