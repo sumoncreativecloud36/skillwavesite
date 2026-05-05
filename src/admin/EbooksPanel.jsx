@@ -30,29 +30,46 @@ export default function EbooksPanel() {
   useEffect(() => { load(); }, []);
 
   async function save(form) {
+    const { data: sess } = await supabase.auth.getSession();
+    if (!sess?.session) {
+      setToast('সেশন এক্সপায়ার্ড — আবার লগইন করুন');
+      setTimeout(() => setToast(''), 4000);
+      return;
+    }
+
     const payload = {};
-    for (const k of ALLOWED) if (form[k] !== undefined) payload[k] = form[k];
+    for (const k of ALLOWED) {
+      if (k === 'id') continue;
+      if (form[k] !== undefined && form[k] !== null) payload[k] = form[k];
+    }
     payload.price = Number(payload.price) || 0;
     payload.original_price = Number(payload.original_price) || 0;
     if (!Array.isArray(payload.faq)) payload.faq = [];
     payload.faq = payload.faq.filter((x) => x && (x.q || x.a));
 
-    let error;
-    if (form.id) {
-      ({ error } = await supabase.from('ebooks').update(payload).eq('id', form.id));
-    } else {
-      delete payload.id;
-      ({ error } = await supabase.from('ebooks').insert(payload));
+    if (import.meta.env.DEV) console.log('[ebooks save] payload:', payload, 'id:', form.id);
+
+    try {
+      let res;
+      if (form.id) {
+        res = await supabase.from('ebooks').update(payload).eq('id', form.id).select();
+      } else {
+        res = await supabase.from('ebooks').insert(payload).select();
+      }
+      if (res.error) throw res.error;
+      if (!res.data || res.data.length === 0) {
+        throw new Error('সংরক্ষণ ব্যর্থ — RLS অনুমতি নেই বা ডেটা ফিরছে না');
+      }
+      setEditing(null);
+      await load();
+      setToast('সংরক্ষিত হয়েছে ✓');
+      setTimeout(() => setToast(''), 1500);
+    } catch (e) {
+      const msg = e?.message || String(e);
+      if (import.meta.env.DEV) console.error('[ebooks save error]', e);
+      setToast('Save failed: ' + msg);
+      setTimeout(() => setToast(''), 6000);
     }
-    if (error) {
-      setToast('Save failed: ' + error.message);
-      setTimeout(() => setToast(''), 5000);
-      return;
-    }
-    setEditing(null);
-    await load();
-    setToast('সংরক্ষিত হয়েছে');
-    setTimeout(() => setToast(''), 1500);
   }
 
   async function remove(id) {
