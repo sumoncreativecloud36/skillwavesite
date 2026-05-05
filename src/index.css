@@ -10,7 +10,25 @@
   --soft-gray: #F3F4F6;
   --line: #E5E7EB;
   --muted: #6B7280;
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --text: #010202;
+  --text-soft: #374151;
 }
+
+[data-theme="dark"] {
+  --line: #1F2937;
+  --muted: #9CA3AF;
+  --bg: #060A14;
+  --surface: #0E1726;
+  --text: #FFFFFF;
+  --text-soft: #D4DCE8;
+}
+[data-theme="dark"] body { background: var(--bg) !important; color: var(--text); }
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4 { color: var(--text); }
+[data-theme="dark"] .card { background: var(--surface); border-color: var(--line); }
+[data-theme="dark"] .input-dark { background: var(--surface); border-color: var(--line); color: var(--text); }
+[data-theme="dark"] .input-dark::placeholder { color: var(--muted); }
 
 html, body, #root { min-height: 100vh; }
 
@@ -116,6 +134,7 @@ h3 { font-weight: 600; font-size: 22px; }
     background: #FFFFFF;
     border: 1px solid var(--line);
     border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(1,2,2,0.04), 0 4px 14px -8px rgba(107,110,202,0.10);
     transition: all 0.25s ease;
   }
   .card-hover:hover {

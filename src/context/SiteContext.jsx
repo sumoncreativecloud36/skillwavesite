@@ -9,6 +9,7 @@ const DEFAULTS = {
   hero_headline: 'বাংলায় শিখুন বিশ্বমানের স্কিল',
   hero_description: 'SkillWave-এ পাবেন এক্সপার্টদের তৈরি কোর্স, ই-বুক ও লাইভ ক্লাস। আজই শুরু করুন আপনার ক্যারিয়ার যাত্রা।',
   hero_image_url: '',
+  hero_video_url: '',
   hero_badge_text: '🔴 লাইভ ইভেন্ট',
   hero_badge_visible: 'true',
   hero_btn1_label: 'ফ্রি রেজিস্ট্রেশন করুন',

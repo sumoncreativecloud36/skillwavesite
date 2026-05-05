@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import CoursesPage from './pages/Courses.jsx';
 import EbooksPage from './pages/Ebooks.jsx';
+import BundlesPage from './pages/Bundles.jsx';
+import WorkshopsPage from './pages/Workshops.jsx';
 import AboutPage from './pages/About.jsx';
 import BlogPage from './pages/Blog.jsx';
 import AdminLogin from './pages/AdminLogin.jsx';
@@ -22,6 +24,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<CoursesPage />} />
         <Route path="/ebooks" element={<EbooksPage />} />
+        <Route path="/bundles" element={<BundlesPage />} />
+        <Route path="/workshops" element={<WorkshopsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/signup" element={<SignUp />} />
